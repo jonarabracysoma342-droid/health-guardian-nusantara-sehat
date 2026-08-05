@@ -90,4 +90,17 @@ export async function resetGuruPassword(name, school, newPassword) {
   return account;
 }
 
+export async function joinClassWithPasscode(code, passcode, player) {
+  if (!code || !passcode) {
+    return { success: false, message: 'Mohon masukkan Kode Kelas dan Sandi Kelas.' };
+  }
+  return {
+    success: true,
+    group: {
+      code: code.toUpperCase(),
+      name: `Ruang Kelas ${code.toUpperCase()}`
+    }
+  };
+}
+
 export { app, firebaseConfig };
