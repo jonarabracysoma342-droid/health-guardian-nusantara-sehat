@@ -1,0 +1,4 @@
+/* Health Guardian CSS */
+@import './src/styles/main.css';
+@import './src/styles/game.css';
+@import './src/styles/certificate.css';
