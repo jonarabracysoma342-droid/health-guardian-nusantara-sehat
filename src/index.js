@@ -47,7 +47,11 @@ export function initGameEngine() {
   router.navigate('login');
 }
 
-// Auto-boot when DOM ready
-document.addEventListener('DOMContentLoaded', () => {
+// Auto-boot when DOM ready or already loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initGameEngine();
+  });
+} else {
   initGameEngine();
-});
+}
