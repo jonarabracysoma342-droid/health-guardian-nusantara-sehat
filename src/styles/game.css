@@ -1,0 +1,13 @@
+/* Game UI & HUD Styling */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.hud-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+}

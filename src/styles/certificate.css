@@ -1,0 +1,8 @@
+/* Certificate Styling */
+.certificate-container {
+  border: 4px double #d97706;
+  padding: 2rem;
+  background: #fff;
+  color: #1e293b;
+  text-align: center;
+}
