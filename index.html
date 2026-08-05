@@ -2,14 +2,742 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Health Guardian : Nusantara Sehat</title>
-  <link rel="stylesheet" href="/src/styles/main.css">
-  <link rel="stylesheet" href="/src/styles/game.css">
-  <link rel="stylesheet" href="/src/styles/certificate.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Wabah yang Mengubah Indonesia: Misi Penjaga Kesehatan</title>
+  <meta name="description" content="Media Pembelajaran Digital Interaktif Berbasis Game Sejarah & Literasi Kesehatan Indonesia - Kurikulum Merdeka">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+  <!-- Styles -->
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./src/styles/main.css">
+  <link rel="stylesheet" href="./src/styles/game.css">
+  <link rel="stylesheet" href="./src/styles/certificate.css">
 </head>
-<body>
-  <div id="app"></div>
-  <script type="module" src="/src/main.js"></script>
+<body class="theme-light font-medium">
+
+  <!-- APP SHELL -->
+  <div id="app" class="app-container">
+
+    <!-- GLOBAL HUD HEADER (Real-time Display & Navigation) -->
+    <header id="global-hud" class="hud-header hidden">
+      <div class="hud-left">
+        <!-- TOMBOL KEMBALI NAVIGASI -->
+        <button id="btn-hud-back" class="btn-icon" title="Kembali ke Layar Sebelumnya">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+        <button id="btn-hud-home" class="btn-icon" title="Kembali ke Beranda (Fitur 1)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </button>
+        <button id="btn-hud-menu" class="btn-icon" title="Menu Navigasi Global (Fitur 2)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+        </button>
+        <button id="btn-hud-profile" class="profile-chip" title="Profil Pemain (Fitur 9)">
+          <div class="avatar-mini" id="hud-avatar">🎓</div>
+          <div class="profile-info-mini">
+            <span id="hud-player-name" class="player-name-text">Siswa</span>
+            <span id="hud-player-level" class="player-level-badge">Mode Siswa</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="hud-center">
+        <div class="health-points-card" title="Poin Sehat Real-time (Fitur 15)">
+          <span class="hp-icon">💚</span>
+          <span id="hud-health-points" class="hp-count">100</span>
+          <span class="hp-label">Poin Sehat</span>
+        </div>
+      </div>
+
+      <div class="hud-right">
+        <button id="btn-hud-trophy" class="btn-icon" title="Prestasi & Lencana (Fitur 3 & 10)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
+        </button>
+        <button id="btn-hud-inventory" class="btn-icon" title="Inventaris Medis & Dokumen (Fitur 5)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 7h-3a2 2 0 0 1-2-2V2"></path><path d="M9 18a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2H9z"></path><line x1="3" y1="12" x2="15" y2="12"></line><line x1="3" y1="16" x2="11" y2="16"></line><line x1="3" y1="8" x2="7" y2="8"></line></svg>
+        </button>
+        <button id="btn-hud-notif" class="btn-icon" title="Notifikasi Misi (Fitur 7)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span id="notif-badge-dot" class="notif-dot hidden"></span>
+        </button>
+        <button id="btn-hud-info" class="btn-icon" title="Informasi & Cara Bermain (Fitur 4)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        </button>
+        <button id="btn-hud-settings" class="btn-icon" title="Pengaturan Audio & Font (Fitur 6)">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        </button>
+        <button id="btn-hud-bgm" class="btn-icon" title="Toggle Musik Latar Ceria (BGM)">
+          <span id="bgm-icon-anim" style="font-size: 1.15rem;">🎵</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- FLOATING CHEERFUL BGM CONTROLLER WIDGET -->
+    <div id="floating-bgm-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 250; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(12px); border: 1.5px solid rgba(2, 132, 199, 0.35); border-radius: 99px; padding: 6px 16px 6px 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 24px rgba(2, 132, 199, 0.22); transition: all 0.3s ease;">
+      <button id="btn-floating-bgm-toggle" style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; color: #ffffff; font-size: 1.15rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(16,185,129,0.35);">
+        🎶
+      </button>
+      <div style="display: flex; flex-direction: column; cursor: pointer;" id="floating-bgm-label-container">
+        <span id="floating-bgm-status-text" style="font-family: var(--font-heading); font-size: 0.82rem; font-weight: 800; color: #0369a1; line-height: 1.1;">
+          🎵 Musik: Nonaktif
+        </span>
+        <span style="font-size: 0.68rem; color: var(--text-muted);">
+          Klik untuk putar BGM ceria
+        </span>
+      </div>
+    </div>
+
+    <!-- DYNAMIC VIEW CONTAINER -->
+    <main id="view-container" class="view-content"></main>
+
+    <!-- GLOBAL OVERLAY MODALS -->
+
+    <!-- MODAL PILIHAN PERAN AWAL (GURU VS SISWA) -->
+    <div id="modal-user-type" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg">
+        <div class="modal-header">
+          <h3><span class="icon">👥</span> Akses Masuk Pengguna Aplikasi</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body text-content">
+          
+          <!-- ROLE SELECTION SCREEN (STATE 1) -->
+          <div id="container-role-selector" style="display: block;">
+            <p style="text-align: center; margin-bottom: 20px; color: var(--text-muted);">
+              Silakan pilih akses Anda untuk masuk ke media pembelajaran interaktif:
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+              <div id="card-mode-siswa" class="menu-tile" style="padding: 24px 16px; min-height: 180px; cursor: pointer;">
+                <span class="tile-icon" style="font-size: 3.5rem;">🎓</span>
+                <span class="tile-title" style="font-size: 1.2rem; margin-top: 8px;">Masuk Sebagai SISWA</span>
+                <span class="tile-sub" style="font-size: 0.85rem; margin-top: 4px;">Isi Nama, Kelas, & Sekolah (Tanpa Password)</span>
+              </div>
+
+              <div id="card-mode-guru" class="menu-tile" style="padding: 24px 16px; min-height: 180px; cursor: pointer;">
+                <span class="tile-icon" style="font-size: 3.5rem;">👨‍🏫</span>
+                <span class="tile-title" style="font-size: 1.2rem; margin-top: 8px;">Masuk Sebagai GURU</span>
+                <span class="tile-sub" style="font-size: 0.85rem; margin-top: 4px;">Login & Registrasi Akun Guru dengan Password</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORM SISWA SCREEN (STATE 2 - HANYA SISWA) -->
+          <div id="form-siswa-details" class="hidden" style="display: none; padding: 24px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; box-shadow: 0 10px 25px rgba(15,23,42,0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 12px;">
+              <h4 style="font-family: var(--font-heading); color: #16a34a; margin: 0; font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                <span>🎓</span> Portal Akses Siswa
+              </h4>
+              <button class="btn-back-role btn btn-sm btn-outline" style="font-size: 0.8rem; padding: 6px 14px; background: #f8fafc; border-color: #cbd5e1; color: #334155;">
+                &larr; Ganti Peran
+              </button>
+            </div>
+            
+            <div style="margin-bottom: 14px;">
+              <label for="input-siswa-name" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 6px; color: #1e293b;">Nama Lengkap Siswa:</label>
+              <input type="text" id="input-siswa-name" class="select-input" placeholder="Masukkan nama siswa..." style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+              <div>
+                <label for="input-siswa-class" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 6px; color: #1e293b;">Kelas:</label>
+                <input type="text" id="input-siswa-class" class="select-input" placeholder="Contoh: Kelas V IPAS" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+              <div>
+                <label for="input-siswa-school" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 6px; color: #1e293b;">Nama Sekolah:</label>
+                <input type="text" id="input-siswa-school" class="select-input" placeholder="Contoh: SD Negeri 01 Nusantara" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+            </div>
+
+            <button id="btn-submit-siswa" class="btn btn-primary btn-full" style="background: linear-gradient(135deg, #22c55e, #16a34a); padding: 12px; color: #ffffff; font-weight: 800;">
+              🚀 Masuk & Mulai Belajar &rarr;
+            </button>
+          </div>
+
+          <!-- FORM GURU SCREEN (STATE 3 - HANYA GURU) -->
+          <div id="form-guru-details" class="hidden" style="display: none; padding: 24px; background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 16px; box-shadow: 0 10px 25px rgba(15,23,42,0.08);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 12px;">
+              <h4 style="font-family: var(--font-heading); color: #0284c7; margin: 0; font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                <span>👨‍🏫</span> Portal Otentikasi Guru
+              </h4>
+              <button class="btn-back-role btn btn-sm btn-outline" style="font-size: 0.8rem; padding: 6px 14px; background: #f8fafc; border-color: #cbd5e1; color: #334155;">
+                &larr; Ganti Peran
+              </button>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 18px;">
+              <button id="tab-guru-login" class="btn btn-sm btn-outline active" style="flex: 1; padding: 8px; font-weight: 700;">🔑 Login Guru</button>
+              <button id="tab-guru-register" class="btn btn-sm btn-outline" style="flex: 1; padding: 8px; font-weight: 700;">📝 Buat Akun Baru</button>
+            </div>
+
+            <!-- GURU LOGIN VIEW -->
+            <div id="view-guru-login">
+              <div style="margin-bottom: 14px;">
+                <label for="input-guru-login-name" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 6px; color: #1e293b;">Nama / NIP / Username Guru:</label>
+                <input type="text" id="input-guru-login-name" class="select-input" placeholder="Masukkan nama atau username guru..." style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+              <div style="margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="input-guru-login-pass" style="font-size: 0.85rem; font-weight: 700; color: #1e293b; margin: 0;">Password Guru:</label>
+                  <a id="btn-forgot-guru-pass" style="color: #0284c7; font-size: 0.78rem; font-weight: 700; cursor: pointer; text-decoration: underline;">🔑 Lupa Password?</a>
+                </div>
+                <input type="password" id="input-guru-login-pass" class="select-input" placeholder="Masukkan password..." style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+              <button id="btn-submit-guru-login" class="btn btn-primary btn-full" style="background: linear-gradient(135deg, #0284c7, #2563eb); padding: 12px; color: #ffffff; font-weight: 800;">
+                🔑 Login Mode Guru &rarr;
+              </button>
+            </div>
+
+            <!-- GURU REGISTER VIEW -->
+            <div id="view-guru-register" class="hidden">
+              <div style="margin-bottom: 12px;">
+                <label for="input-guru-reg-name" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Nama Lengkap Guru (dengan Gelar):</label>
+                <input type="text" id="input-guru-reg-name" class="select-input" placeholder="Contoh: Dr. Budi Santoso, M.Pd" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+              <div style="margin-bottom: 12px;">
+                <label for="input-guru-reg-school" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Nama Sekolah / Instansi:</label>
+                <input type="text" id="input-guru-reg-school" class="select-input" placeholder="Contoh: SD Negeri 01 Nusantara" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+                <div>
+                  <label for="input-guru-reg-pass" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Buat Password:</label>
+                  <input type="password" id="input-guru-reg-pass" class="select-input" placeholder="Minimal 4 karakter" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+                </div>
+                <div>
+                  <label for="input-guru-reg-pass-confirm" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Konfirmasi Password:</label>
+                  <input type="password" id="input-guru-reg-pass-confirm" class="select-input" placeholder="Ulangi password" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+                </div>
+              </div>
+              <button id="btn-submit-guru-register" class="btn btn-primary btn-full" style="background: linear-gradient(135deg, #7c3aed, #4f46e5); padding: 12px; color: #ffffff; font-weight: 800;">
+                ✨ Registrasi & Buat Akun Guru &rarr;
+              </button>
+            </div>
+
+            <!-- GURU RESET PASSWORD VIEW -->
+            <div id="view-guru-reset-pass" class="hidden">
+              <div style="background:#f0f9ff; border:1.5px solid #bae6fd; border-radius:14px; padding:12px 16px; margin-bottom:16px; font-size:0.82rem; color:#0369a1; line-height:1.5;">
+                💡 <strong>Reset Password Guru:</strong> Masukkan Nama Lengkap / Username dan Nama Sekolah / Instansi yang Anda daftarkan untuk membuat password baru.
+              </div>
+              <div style="margin-bottom: 12px;">
+                <label for="input-guru-reset-name" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Nama Lengkap / Username Guru:</label>
+                <input type="text" id="input-guru-reset-name" class="select-input" placeholder="Contoh: Dr. Budi Santoso" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+              <div style="margin-bottom: 12px;">
+                <label for="input-guru-reset-school" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Nama Sekolah / Instansi Terdaftar:</label>
+                <input type="text" id="input-guru-reset-school" class="select-input" placeholder="Contoh: SD Negeri 01 Nusantara" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+                <div>
+                  <label for="input-guru-reset-pass" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Password Baru:</label>
+                  <input type="password" id="input-guru-reset-pass" class="select-input" placeholder="Minimal 4 karakter" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+                </div>
+                <div>
+                  <label for="input-guru-reset-pass-confirm" style="font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 4px; color: #1e293b;">Konfirmasi Password Baru:</label>
+                  <input type="password" id="input-guru-reset-pass-confirm" class="select-input" placeholder="Ulangi password baru" style="width: 100%; background: #ffffff; color: #0f172a; border: 1.5px solid #cbd5e1;">
+                </div>
+              </div>
+              <button id="btn-submit-guru-reset-pass" class="btn btn-primary btn-full" style="background: linear-gradient(135deg, #0284c7, #0369a1); padding: 12px; color: #ffffff; font-weight: 800;">
+                🔄 Simpan & Update Password Baru &rarr;
+              </button>
+              <button id="btn-cancel-guru-reset-pass" class="btn btn-sm btn-outline btn-full" style="margin-top: 8px; padding: 8px; font-weight: 700; color: #64748b; background:#f8fafc; border-color:#cbd5e1;">
+                &larr; Batal & Kembali ke Form Login
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Overlay (Fitur 2) -->
+    <div id="modal-menu" class="modal-overlay hidden">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h3><span class="icon">🗂️</span> Menu Navigasi Utama</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body grid-menu">
+          <button class="menu-tile" data-action="nav-teacher-dashboard" style="background: #f0f9ff; border-color: #38bdf8;">
+            <span class="tile-icon">👨‍🏫</span>
+            <span class="tile-title" style="color: #0284c7;">Dashboard Guru</span>
+            <span class="tile-sub">Buat Kode Kelas & Presentasi</span>
+          </button>
+          <button class="menu-tile" data-action="nav-join-class" style="background: #ecfdf5; border-color: #a7f3d0;">
+            <span class="tile-icon">🔑</span>
+            <span class="tile-title" style="color: #047857;">Gabung Kelas Guru</span>
+            <span class="tile-sub">Masukkan PIN & Sandi Kelas</span>
+          </button>
+          <button class="menu-tile" data-action="nav-map">
+            <span class="tile-icon">🗺️</span>
+            <span class="tile-title">Peta Sejarah</span>
+            <span class="tile-sub">Pilih Era Wabah</span>
+          </button>
+          <button class="menu-tile" data-action="nav-lab">
+            <span class="tile-icon">🔬</span>
+            <span class="tile-title">Lab Digital</span>
+            <span class="tile-sub">Teliti Patogen</span>
+          </button>
+          <button class="menu-tile" data-action="nav-minigame">
+            <span class="tile-icon">🎮</span>
+            <span class="tile-title">Mini Game & Kuis</span>
+            <span class="tile-sub">Simulasi Misi</span>
+          </button>
+          <button class="menu-tile" data-action="nav-hisbot">
+            <span class="tile-icon">🤖</span>
+            <span class="tile-title">HISbot (AI)</span>
+            <span class="tile-sub">Asisten Sejarah AI</span>
+          </button>
+          <button class="menu-tile" data-action="nav-lessons">
+            <span class="tile-icon">💡</span>
+            <span class="tile-title">Tujuan Pembelajaran</span>
+            <span class="tile-sub">Kurikulum Merdeka</span>
+          </button>
+          <button class="menu-tile" data-action="nav-report">
+            <span class="tile-icon">📜</span>
+            <span class="tile-title">Rapor Digital</span>
+            <span class="tile-sub">Sertifikat Murid</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Achievement/Trofi Modal (Fitur 3 & 10) -->
+    <div id="modal-achievements" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg">
+        <div class="modal-header">
+          <h3><span class="icon">🏆</span> Prestasi & Lencana Kompetensi</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="trophy-summary-bar">
+            <div class="trophy-stat">
+              <span class="stat-value" id="achieve-count">0/6</span>
+              <span class="stat-label">Lencana Reraih</span>
+            </div>
+            <div class="trophy-stat">
+              <span class="stat-value" id="total-stars-count">⭐ 0</span>
+              <span class="stat-label">Total Bintang</span>
+            </div>
+          </div>
+          <div id="badge-grid" class="badge-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory/Koleksi Modal (Fitur 5) -->
+    <div id="modal-inventory" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg">
+        <div class="modal-header">
+          <h3><span class="icon">🎒</span> Inventaris & Dokumen Sejarah</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="inventory-grid" class="inventory-grid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info / Onboarding Modal (Fitur 4) -->
+    <div id="modal-info" class="modal-overlay hidden">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h3><span class="icon">ℹ️</span> Informasi & Cara Bermain</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body text-content">
+          <h4>Selamat Datang, Penjaga Kesehatan Nusantara!</h4>
+          <p>Game ini dirancang untuk membantumu mempelajari sejarah wabah di Indonesia, perkembangan sistem kesehatan nasional, dan literasi biologi patogen sesuai Kurikulum Merdeka.</p>
+          <div class="guide-steps">
+            <div class="step-card">
+              <span class="step-num">1</span>
+              <div><strong>Eksplorasi Era:</strong> Jelajahi timeline Peta Perjalanan dari Masa Kolonial hingga Visi Masa Depan.</div>
+            </div>
+            <div class="step-card">
+              <span class="step-num">2</span>
+              <div><strong>Riset di Lab Digital:</strong> Gunakan mikroskop untuk meneliti patogen dan menetaskan reagen.</div>
+            </div>
+            <div class="step-card">
+              <span class="step-num">3</span>
+              <div><strong>Mini Game Mitigasi:</strong> Selesaikan misi triase karantina, PHBS, dan vaksinasi untuk mengumpulkan Poin Sehat dan 3 Bintang.</div>
+            </div>
+            <div class="step-card">
+              <span class="step-num">4</span>
+              <div><strong>Kumpulkan Rapor:</strong> Raih lencana kompetensi dan unduh Sertifikat Digital Penjaga Kesehatan untuk ditunjukkan kepada Gurumu!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Modal (Fitur 6) -->
+    <div id="modal-settings" class="modal-overlay hidden">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h3><span class="icon">⚙️</span> Pengaturan Game</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body settings-form">
+          <div class="setting-item">
+            <label for="setting-sound-sfx">Efek Suara (SFX)</label>
+            <input type="checkbox" id="setting-sound-sfx" class="toggle-switch" checked>
+          </div>
+          <div class="setting-item">
+            <label for="setting-font-size">Ukuran Teks Tampilan</label>
+            <select id="setting-font-size" class="select-input">
+              <option value="font-normal">Normal (Standard)</option>
+              <option value="font-large">Besar (Aksesibilitas)</option>
+              <option value="font-xlarge">Sangat Besar</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label for="setting-lang">Bahasa Aplikasi</label>
+            <select id="setting-lang" class="select-input">
+              <option value="id">Bahasa Indonesia (Resmi)</option>
+            </select>
+          </div>
+          <hr class="divider">
+          <button id="btn-reset-progress" class="btn btn-outline-danger btn-full">
+            🗑️ Reset Progres Game (Local Storage)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Overlay (Fitur 7) -->
+    <div id="modal-notif" class="modal-overlay hidden">
+      <div class="modal-card glass-panel">
+        <div class="modal-header">
+          <h3><span class="icon">🔔</span> Notifikasi & Misi Harian</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body" id="notif-list-container">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Sejarah Pop-up (Fitur 16 & 17) -->
+    <div id="modal-history-info" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg">
+        <div class="modal-header">
+          <h3 id="history-modal-title"><span class="icon">📜</span> Fakta Sejarah Kesehatan</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body" id="history-modal-body">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL GABUNG RUANG KELAS GURU & KELOMPOK (AKSES SISWA) -->
+    <div id="modal-join-group" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg" style="max-width: 820px; width: 95%; max-height: 90vh; border-radius: 24px; padding: 0; background: #ffffff; overflow: hidden; display: flex; flex-direction: column;">
+        <!-- HEADER MODAL GABUNG KELAS -->
+        <div style="background: linear-gradient(135deg, #0284c7 0%, #00288e 100%); padding: 20px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center; position: relative;">
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 800; color: #7dd3fc; text-transform: uppercase; letter-spacing: 0.8px;">
+              RUANG KELAS & KOLABORASI SISWA
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; margin: 4px 0 0 0; color: #ffffff;">
+              🔑 Gabung Ruang Kelas Guru & Kelompok
+            </h3>
+          </div>
+          <button class="btn-close-modal" style="background: rgba(255,255,255,0.15); border: none; font-size: 1.4rem; color: #ffffff; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;">&times;</button>
+        </div>
+
+        <!-- BODY MODAL GABUNG KELAS -->
+        <div class="modal-body" id="group-modal-body" style="padding: 24px; overflow-y: auto; flex: 1;">
+          <!-- Dynamically populated via renderModalContent('modal-join-group') -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL PORTAL PILIHAN KUIS (KUIS MANDIRI VS KUIS KELAS GURU) -->
+    <div id="modal-select-kuis" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg" style="max-width: 900px; width: 95%; max-height: 88vh; border-radius: 24px; padding: 0; background: #ffffff; overflow: hidden; display: flex; flex-direction: column;">
+        <!-- HEADER PORTAL KUIS -->
+        <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 20px 24px; color: #ffffff; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.8px;">
+              PORTAL EVALUASI & LITERASI KESEHATAN
+            </div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; margin: 4px 0 0 0; color: #ffffff;">
+              📝 Pilih Kuis & Evaluasi Belajar
+            </h3>
+          </div>
+          <button class="btn-close-modal" style="background: rgba(255,255,255,0.12); border: none; font-size: 1.4rem; color: #ffffff; width: 38px; height: 38px; border-radius: 50%; cursor: pointer;">&times;</button>
+        </div>
+
+        <!-- TAB SWITCHER: KUIS MANDIRI VS KUIS KELAS -->
+        <div style="background: #f8fafc; border-bottom: 1.5px solid #e2e8f0; padding: 12px 24px; display: flex; gap: 12px;">
+          <button id="tab-portal-kuis-mandiri" class="portal-quiz-tab" style="padding: 10px 20px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; border: 1.5px solid #0284c7; background: #0284c7; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+            <span>🏆</span> Kuis Mandiri (Game Default)
+          </button>
+          <button id="tab-portal-kuis-kelas" class="portal-quiz-tab" style="padding: 10px 20px; border-radius: 12px; font-weight: 800; font-size: 0.9rem; cursor: pointer; border: 1.5px solid #cbd5e1; background: #ffffff; color: #64748b; display: flex; align-items: center; gap: 8px;">
+            <span>🏫</span> Kuis Kelas & Tugas Guru
+          </button>
+        </div>
+
+        <!-- BODY PORTAL KUIS -->
+        <div style="padding: 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 16px;">
+          
+          <!-- VIEW 1: KUIS MANDIRI (GAME BAWAAN) -->
+          <div id="view-portal-kuis-mandiri" style="display: flex; flex-direction: column; gap: 14px;">
+            <p style="font-size: 0.85rem; color: #64748b; margin: 0 0 4px 0;">
+              Kuis mandiri bawaan game untuk menguji pemahaman literasi kesehatan, sejarah wabah Nusantara, dan pola hidup bersih sehat secara bebas.
+            </p>
+
+            <!-- CARD KUIS MANDIRI 1 -->
+            <div style="background: #ffffff; border: 1.5px solid #bae6fd; border-radius: 18px; padding: 20px; box-shadow: 0 4px 14px rgba(2,132,199,0.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div style="display: flex; gap: 16px; align-items: center;">
+                <div style="width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #e0f2fe, #bae6fd); color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0;">
+                  📝
+                </div>
+                <div>
+                  <div style="font-size: 0.75rem; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 2px;">
+                    20 SOAL EVALUASI • KURIKULUM MERDEKA
+                  </div>
+                  <h4 style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">
+                    Kuis Evaluasi Utama: PHBS & Sejarah Wabah Nusantara
+                  </h4>
+                  <div style="font-size: 0.8rem; color: #64748b; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <span>⏱️ Durasi: <strong>20 Menit</strong></span>
+                    <span>💚 Poin Sehat: <strong>Hingga +400 Poin</strong></span>
+                    <span id="label-score-kuis-mandiri">⭐ Status: <strong>Tersedia</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <button id="btn-start-kuis-mandiri" class="btn btn-primary" style="padding: 12px 24px; border-radius: 14px; font-weight: 800; background: linear-gradient(135deg, #0284c7, #00288e); color: #ffffff; box-shadow: 0 4px 14px rgba(0,40,142,0.3);">
+                🚀 Mulai Kerjakan Kuis &rarr;
+              </button>
+            </div>
+
+            <!-- CARD KUIS MANDIRI 2 -->
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div style="display: flex; gap: 16px; align-items: center;">
+                <div style="width: 56px; height: 56px; border-radius: 16px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0;">
+                  🔬
+                </div>
+                <div>
+                  <div style="font-size: 0.75rem; font-weight: 800; color: #d97706; text-transform: uppercase; margin-bottom: 2px;">
+                    5 SOAL SIMULASI HOTS • LAB PATOGEN
+                  </div>
+                  <h4 style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0 0 4px 0;">
+                    Latihan Mitigasi Zoonosis & Biosafety (H5N1 & COVID-19)
+                  </h4>
+                  <div style="font-size: 0.8rem; color: #64748b; display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <span>⏱️ Durasi: <strong>8 Menit</strong></span>
+                    <span>💚 Poin Sehat: <strong>Hingga +100 Poin</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <button id="btn-start-kuis-hots" class="btn btn-outline" style="padding: 12px 24px; border-radius: 14px; font-weight: 800; border-color: #d97706; color: #d97706; background: #ffffff;">
+                🧪 Kerjakan Latihan HOTS &rarr;
+              </button>
+            </div>
+
+          </div>
+
+          <!-- VIEW 2: KUIS KELAS & GURU -->
+          <div id="view-portal-kuis-kelas" style="display: none; flex-direction: column; gap: 14px;">
+            <div id="container-kuis-kelas-list">
+              <!-- Dynamically populated based on student group state -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL KUIS EVALUASI KOMPETENSI (INTERAKTIF SEPERTI PREVIEW) -->
+    <div id="modal-kuis" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg" style="max-width: 960px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; border-radius: 24px; padding: 0; background: #f8fafc; border: 1.5px solid rgba(226, 232, 240, 0.8);">
+        <!-- HEADER KUIS -->
+        <div style="background: #ffffff; padding: 18px 24px; border-bottom: 1.5px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 700; color: #0284c7; display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+              <span>Kuis</span> &rsaquo; <span style="font-weight: 800; color: #0369a1;">Evaluasi Kompetensi Health Defender</span>
+            </div>
+            <h3 id="quiz-title-display" style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: #0f172a; margin: 0;">
+              Kuis Evaluasi Kompetensi: PHBS & Sejarah Kesehatan
+            </h3>
+            <p style="font-size: 0.82rem; color: #64748b; margin: 2px 0 0 0;">
+              Selesaikan 20 soal evaluasi pilihan ganda untuk mengumpulkan Poin Sehat 💚 & Bintang ⭐.
+            </p>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <!-- KEMAJUAN BADGE -->
+            <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 16px; padding: 10px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); min-width: 220px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 800; margin-bottom: 6px;">
+                <span style="color: #00288e;">Kemajuan</span>
+                <span id="quiz-progress-text" style="color: #475569;">Pertanyaan 1 dari 20</span>
+              </div>
+              <div style="width: 100%; height: 8px; background: #e2e8f0; border-radius: 99px; overflow: hidden;">
+                <div id="quiz-progress-bar" style="width: 5%; height: 100%; background: linear-gradient(90deg, #0284c7, #00288e); border-radius: 99px; transition: width 0.3s ease;"></div>
+              </div>
+            </div>
+            
+            <button class="btn-close-modal" style="background: #f1f5f9; border: none; font-size: 1.4rem; color: #64748b; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+          </div>
+        </div>
+
+        <!-- BODY KUIS -->
+        <div style="padding: 24px; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 20px;">
+          <!-- MAIN QUESTION CARD -->
+          <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 20px; padding: 24px; box-shadow: 0 4px 16px rgba(15,23,42,0.04);">
+            <!-- SOAL HEADER -->
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+              <div style="width: 36px; height: 36px; border-radius: 10px; background: #00288e; color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem;">
+                📝
+              </div>
+              <span id="quiz-question-number" style="font-size: 0.82rem; font-weight: 800; color: #64748b; letter-spacing: 0.8px; text-transform: uppercase;">
+                SOAL NOMOR 1
+              </span>
+            </div>
+
+            <!-- QUESTION TEXT -->
+            <div id="quiz-question-container" style="font-family: var(--font-heading); font-size: 1.15rem; font-weight: 700; color: #0f172a; line-height: 1.5; margin-bottom: 24px;">
+              <!-- Pertanyaan dimasukkan via JS -->
+            </div>
+
+            <!-- OPTIONS GRID (4 PILIHAN) -->
+            <div id="quiz-options-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px;">
+              <!-- Options A, B, C, D dimasukkan via JS -->
+            </div>
+
+            <!-- NAVIGASI NOMOR SOAL (1-20) -->
+            <div style="border-top: 1px solid #f1f5f9; padding-top: 20px;">
+              <div style="text-align: center; font-size: 0.72rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">
+                NAVIGASI SOAL
+              </div>
+              <div id="quiz-nav-buttons" style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <!-- Tombol 1-20 dimasukkan via JS -->
+              </div>
+            </div>
+
+            <!-- NAVIGATION CONTROL BUTTONS (PREV / NEXT) -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 18px; width: 100%; gap: 12px;">
+              <button id="btn-quiz-prev" class="btn btn-outline" style="border-radius: 12px; padding: 10px 22px; font-weight: 700; border-color: #00288e; color: #00288e; background: #ffffff; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                &larr; Sebelumnya
+              </button>
+
+              <div id="quiz-dot-indicators" style="display: flex; gap: 6px; align-items: center; overflow-x: auto; max-width: 50%;">
+                <!-- Dots -->
+              </div>
+
+              <button id="btn-quiz-next" class="btn btn-primary" style="border-radius: 12px; padding: 10px 24px; font-weight: 800; background: #00288e; color: #ffffff; box-shadow: 0 4px 12px rgba(0,40,142,0.3); white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                Selanjutnya &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- BOTTOM WIDGETS GRID (TIPS & TIMER) -->
+          <div style="display: grid; grid-template-columns: 1fr 300px; gap: 16px;">
+            <!-- TIPS BELAJAR WIDGET -->
+            <div style="background: #ffffff; border: 1.5px solid #e2e8f0; border-radius: 18px; padding: 16px 20px; display: flex; gap: 16px; align-items: center;">
+              <div style="width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(135deg, #e0f2fe, #bae6fd); display: flex; align-items: center; justify-content: center; font-size: 1.7rem; flex-shrink: 0; border: 1px solid #7dd3fc;">
+                💡
+              </div>
+              <div>
+                <h5 style="font-family: var(--font-heading); font-size: 0.95rem; font-weight: 800; color: #0369a1; margin: 0 0 4px 0;">
+                  Tips Belajar & Pembahasan
+                </h5>
+                <p id="quiz-tips-text" style="font-size: 0.83rem; color: #475569; margin: 0; line-height: 1.45;">
+                  Pilih salah satu jawaban di atas untuk melihat petunjuk pembahasan kuis.
+                </p>
+              </div>
+            </div>
+
+            <!-- SISA WAKTU (TIMER WIDGET) -->
+            <div style="background: linear-gradient(135deg, #00288e, #0369a1); border-radius: 18px; padding: 16px 20px; color: #ffffff; display: flex; align-items: center; gap: 16px; box-shadow: 0 6px 18px rgba(0,40,142,0.25);">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;">
+                ⏱️
+              </div>
+              <div>
+                <div style="font-size: 0.72rem; font-weight: 700; color: #93c5fd; text-transform: uppercase; letter-spacing: 0.5px;">
+                  Sisa Waktu
+                </div>
+                <div id="quiz-timer-display" style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; color: #ffffff; letter-spacing: 1px;">
+                  20:00
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL TUJUAN PEMBELAJARAN & ATP KURIKULUM MERDEKA -->
+    <div id="modal-tujuan" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg">
+        <div class="modal-header" style="background: #f0fdf4; border-bottom: 1.5px solid #a7f3d0;">
+          <h3 style="color: #166534;"><span class="icon">🎯</span> Tujuan Pembelajaran & Alur Tujuan Pembelajaran (ATP)</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body text-content">
+          <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: var(--shadow-sm);">
+            <h4 style="color: #0284c7; margin-bottom: 8px; font-size: 1.1rem; display: flex; align-items: center; gap: 8px;">
+              <span>📘</span> Capaian Pembelajaran (CP) - IPAS & Sejarah (Fase C)
+            </h4>
+            <p style="font-size: 0.9rem; color: #475569; line-height: 1.5;">
+              Peserta didik menganalisis hubungan antara sejarah perkembangan ilmu pengetahuan kesehatan di Indonesia dengan kesiapsiagaan menanggulangi wabah penyakit menular, serta menerapkan Perilaku Hidup Bersih dan Sehat (PHBS) dalam kehidupan sehari-hari.
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
+            <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 14px;">
+              <h5 style="color: #0f172a; font-weight: 800; margin-bottom: 6px; font-size: 0.95rem;">
+                1. Domain Literasi Sains (C2 - C4)
+              </h5>
+              <ul style="font-size: 0.85rem; color: #475569; padding-left: 18px; line-height: 1.6;">
+                <li>Mengidentifikasi struktur patogen (virus & bakteri).</li>
+                <li>Memahami mekanisme transmisi & formulasi vaksinasi.</li>
+                <li>Menganalisis efektivitas isolasi HEPA.</li>
+              </ul>
+            </div>
+
+            <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 14px; padding: 14px;">
+              <h5 style="color: #0f172a; font-weight: 800; margin-bottom: 6px; font-size: 0.95rem;">
+                2. Domain Sejarah & Kebangsaan
+              </h5>
+              <ul style="font-size: 0.85rem; color: #475569; padding-left: 18px; line-height: 1.6;">
+                <li>Meneladani peranan dokter STOVIA (1902).</li>
+                <li>Menghargai sejarah keberhasilan pencapaian eradikasi Cacar.</li>
+                <li>Memahami perkembangan fasilitas kesehatan nasional (Puskesmas).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL RAPOR DIGITAL & SERTIFIKAT PRESTASI -->
+    <div id="modal-rapor" class="modal-overlay hidden">
+      <div class="modal-card glass-panel modal-lg" style="max-width: 880px;">
+        <div class="modal-header" style="background: #e0f2fe; border-bottom: 1.5px solid #0284c7;">
+          <h3 style="color: #0369a1;"><span class="icon">📜</span> Rapor Digital & Sertifikat Penjaga Kesehatan</h3>
+          <button class="btn-close-modal">&times;</button>
+        </div>
+        <div class="modal-body" id="rapor-modal-body">
+          <!-- Dynamically Populated -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- VITE MAIN ENTRY POINT -->
+  <script type="module" src="./src/index.js"></script>
 </body>
 </html>
